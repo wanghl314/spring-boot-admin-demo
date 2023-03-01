@@ -12,13 +12,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.4.RELEASE</version>
+        <version>3.0.3</version>
     </parent>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <spring-boot-admin-starter.version>2.3.1</spring-boot-admin-starter.version>
+        <java.version>17</java.version>
+        <!-- de/codecentric/spring-boot-admin-starter-client、de/codecentric/spring-boot-admin-starter-client -->
+        <spring-boot-admin-starter.version>3.0.0</spring-boot-admin-starter.version>
     </properties>
 
     <dependencyManagement>
