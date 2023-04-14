@@ -17,8 +17,8 @@
 
     <properties>
         <java.version>17</java.version>
-        <!-- de/codecentric/spring-boot-admin-starter-client、de/codecentric/spring-boot-admin-starter-client -->
-        <spring-boot-admin-starter.version>3.0.0</spring-boot-admin-starter.version>
+        <!-- de/codecentric/spring-boot-admin-starter-client、de/codecentric/spring-boot-admin-starter-server -->
+        <spring-boot-admin-starter.version>3.0.2</spring-boot-admin-starter.version>
     </properties>
 
     <repositories>
