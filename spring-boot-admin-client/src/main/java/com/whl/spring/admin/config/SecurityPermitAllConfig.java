@@ -10,8 +10,7 @@ public class SecurityPermitAllConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests((authorizeRequests) -> authorizeRequests.anyRequest().permitAll())
-                .csrf().disable().build();
+        return http.csrf(c -> c.ignoringRequestMatchers("/actuator/**")).build();
     }
 
 }
