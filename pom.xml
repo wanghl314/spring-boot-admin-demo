@@ -12,7 +12,7 @@
         <!-- org/springframework/boot/spring-boot-starter-parent -->
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.6</version>
+        <version>3.4.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -20,7 +20,7 @@
         <java.version>17</java.version>
         <revision>1.0-SNAPSHOT</revision>
         <!-- de/codecentric/spring-boot-admin-starter-client、de/codecentric/spring-boot-admin-starter-server -->
-        <spring-boot-admin-starter.version>3.3.6</spring-boot-admin-starter.version>
+        <spring-boot-admin-starter.version>3.4.0</spring-boot-admin-starter.version>
     </properties>
 
     <repositories>
