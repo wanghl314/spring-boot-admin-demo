@@ -20,7 +20,7 @@
         <java.version>17</java.version>
         <revision>1.0-SNAPSHOT</revision>
         <!-- de/codecentric/spring-boot-admin-starter-client、de/codecentric/spring-boot-admin-starter-server -->
-        <spring-boot-admin-starter.version>3.5.1</spring-boot-admin-starter.version>
+        <spring-boot-admin-starter.version>3.5.2</spring-boot-admin-starter.version>
     </properties>
 
     <repositories>
