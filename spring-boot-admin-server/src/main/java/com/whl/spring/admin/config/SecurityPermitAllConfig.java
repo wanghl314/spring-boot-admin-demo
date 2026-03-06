@@ -1,8 +1,6 @@
 package com.whl.spring.admin.config;
 
-import static org.springframework.http.HttpMethod.DELETE;
-import static org.springframework.http.HttpMethod.POST;
-
+import de.codecentric.boot.admin.server.config.AdminServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -10,9 +8,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
-import de.codecentric.boot.admin.server.config.AdminServerProperties;
+import static org.springframework.http.HttpMethod.DELETE;
+import static org.springframework.http.HttpMethod.POST;
 
 @Profile("insecure")
 @Configuration(proxyBeanMethods = false)
@@ -29,11 +28,11 @@ public class SecurityPermitAllConfig {
                 .csrf((csrf) -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
                         .ignoringRequestMatchers(
-                                new AntPathRequestMatcher(this.adminServer.path("/instances"), POST.toString()),
-                                new AntPathRequestMatcher(this.adminServer.path("/notifications/**"), POST.toString()),
-                                new AntPathRequestMatcher(this.adminServer.path("/notifications/**"), DELETE.toString()),
-                                new AntPathRequestMatcher(this.adminServer.path("/instances/*"), DELETE.toString()),
-                                new AntPathRequestMatcher(this.adminServer.path("/actuator/**"))));
+                                PathPatternRequestMatcher.withDefaults().matcher(POST, this.adminServer.path("/instances")),
+                                PathPatternRequestMatcher.withDefaults().matcher(POST, this.adminServer.path("/notifications/**")),
+                                PathPatternRequestMatcher.withDefaults().matcher(DELETE, this.adminServer.path("/notifications/**")),
+                                PathPatternRequestMatcher.withDefaults().matcher(DELETE, this.adminServer.path("/instances/*")),
+                                PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/actuator/**"))));
         return http.build();
     }
 

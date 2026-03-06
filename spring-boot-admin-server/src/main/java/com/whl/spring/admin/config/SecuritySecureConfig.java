@@ -1,11 +1,8 @@
 package com.whl.spring.admin.config;
 
-import static org.springframework.http.HttpMethod.DELETE;
-import static org.springframework.http.HttpMethod.POST;
-
-import java.util.UUID;
-
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import de.codecentric.boot.admin.server.config.AdminServerProperties;
+import jakarta.servlet.DispatcherType;
+import org.springframework.boot.security.autoconfigure.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -20,10 +17,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
-import de.codecentric.boot.admin.server.config.AdminServerProperties;
-import jakarta.servlet.DispatcherType;
+import java.util.UUID;
+
+import static org.springframework.http.HttpMethod.DELETE;
+import static org.springframework.http.HttpMethod.POST;
 
 @Profile("secure")
 @Configuration(proxyBeanMethods = false)
@@ -44,13 +43,13 @@ public class SecuritySecureConfig {
         successHandler.setDefaultTargetUrl(this.adminServer.path("/"));
 
         http.authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-                        .requestMatchers(new AntPathRequestMatcher(this.adminServer.path("/assets/**")))
+                        .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/assets/**")))
                         .permitAll()
-                        .requestMatchers(new AntPathRequestMatcher(this.adminServer.path("/actuator/info")))
+                        .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/actuator/info")))
                         .permitAll()
-                        .requestMatchers(new AntPathRequestMatcher(this.adminServer.path("/actuator/health")))
+                        .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/actuator/health")))
                         .permitAll()
-                        .requestMatchers(new AntPathRequestMatcher(this.adminServer.path("/login")))
+                        .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/login")))
                         .permitAll()
                         .dispatcherTypeMatchers(DispatcherType.ASYNC)
                         .permitAll() // https://github.com/spring-projects/spring-security/issues/11027
@@ -64,9 +63,9 @@ public class SecuritySecureConfig {
         http.csrf((csrf) -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
                 .ignoringRequestMatchers(
-                        new AntPathRequestMatcher(this.adminServer.path("/instances"), POST.toString()),
-                        new AntPathRequestMatcher(this.adminServer.path("/instances/*"), DELETE.toString()),
-                        new AntPathRequestMatcher(this.adminServer.path("/actuator/**"))
+                        PathPatternRequestMatcher.withDefaults().matcher(POST, this.adminServer.path("/instances")),
+                        PathPatternRequestMatcher.withDefaults().matcher(DELETE, this.adminServer.path("/instances/*")),
+                        PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/actuator/**"))
                 ));
 
         http.rememberMe((rememberMe) -> rememberMe.key(UUID.randomUUID().toString()).tokenValiditySeconds(1209600));
